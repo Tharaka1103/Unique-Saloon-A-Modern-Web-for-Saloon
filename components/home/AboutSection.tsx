@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Sparkles, ShieldCheck, Heart } from "lucide-react";
 
 export function AboutSection() {
@@ -43,21 +44,34 @@ export function AboutSection() {
             </div>
           </div>
 
-          <div className="relative">
-            {/* Minimalist image placeholder simulation */}
+          <div className="relative group">
+            {/* Image container with styling */}
             <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-muted relative shadow-2xl border border-border/50">
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/20 to-transparent z-10" />
-              <div className="w-full h-full object-cover grayscale mix-blend-overlay opacity-80" />
+              <Image
+                src="/seat1.jpeg"
+                alt="Luxury salon chair at Unique Hair Studio"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={80}
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIRAAAgICAQQDAAAAAAAAAAAAAQIDBAARBQYSITFBUWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABsRAAICAwEAAAAAAAAAAAAAAAECABEDITFB/9oADAMBAAIRAxEAPwC3xnUHI8jwkENu1O0cNlYoklkYhVJ3oAnwMzjqHqjlrmPPG8kkT9r9jRuV0w9jGMTWjYE5lhiJn//Z"
+              />
+              {/* Elegant gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent z-10" />
               
-              {/* Decorative text inside placeholder */}
+              {/* Decorative text */}
               <div className="absolute bottom-10 left-10 z-20 text-white">
-                <p className="text-4xl font-light italic opacity-90">"Perfection</p>
-                <p className="text-3xl font-bold ml-8">in every detail."</p>
+                <p className="text-4xl font-light italic opacity-90">&ldquo;Perfection</p>
+                <p className="text-3xl font-bold ml-8">in every detail.&rdquo;</p>
               </div>
             </div>
             
             {/* Extra abstract geometric element */}
-            <div className="absolute -bottom-6 -left-6 z-[-1] w-2/3 aspect-square rounded-3xl border border-primary/20 bg-primary/5" />
+            <div className="absolute -bottom-6 -left-6 z-[-1] w-2/3 aspect-square rounded-3xl border border-primary/20 bg-primary/5 transition-transform duration-500 group-hover:translate-x-2 group-hover:translate-y-2" />
+            
+            {/* Accent decoration */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 border-2 border-primary/20 rounded-full z-[-1]" />
           </div>
 
         </div>

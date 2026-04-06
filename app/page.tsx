@@ -7,6 +7,7 @@ import { PublicFooter } from "@/components/layout/PublicFooter";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedServices } from "@/components/home/FeaturedServices";
 import { AboutSection } from "@/components/home/AboutSection";
+import { GallerySection } from "@/components/home/GallerySection";
 
 // Force dynamic to ensure we get latest settings, or revalidate path.
 // Standard App Router caching dictates we should specify dynamic if we want real-time updates.
@@ -38,6 +39,7 @@ export default async function Home() {
         <HeroSection display={settings.display} />
         <FeaturedServices services={services} />
         <AboutSection />
+        <GallerySection />
       </main>
 
       <PublicFooter display={settings.display} />
