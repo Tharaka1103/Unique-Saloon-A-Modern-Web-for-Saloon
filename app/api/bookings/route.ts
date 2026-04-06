@@ -197,7 +197,7 @@ export async function POST(
  */
 export async function GET(
   request: NextRequest
-): Promise<NextResponse<ApiResponse<{ bookings: BookingWithService[]; total: number }>>> {
+): Promise<NextResponse<ApiResponse<{ bookings: BookingWithService[]; pagination: { total: number; page: number; limit: number; totalPages: number } }>>> {
   try {
     await connectToDatabase();
 
