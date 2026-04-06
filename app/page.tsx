@@ -32,7 +32,7 @@ export default async function Home() {
   const services = JSON.parse(JSON.stringify(servicesDocs));
 
   return (
-    <div className="min-h-screen flex flex-col bg-background selection:bg-primary/20 selection:text-primary">
+    <div className="min-h-screen flex flex-col bg-background selection:bg-primary/20 selection:text-primary overflow-x-hidden">
       <PublicNavbar salonName={settings.display.salonName} />
 
       <main className="flex-1">

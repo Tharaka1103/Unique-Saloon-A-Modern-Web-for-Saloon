@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -10,7 +12,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ display }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden bg-background min-h-[90vh] flex items-center">
+    <section className="relative w-full overflow-hidden bg-black flex items-center justify-center h-screen min-h-screen">
       {/* Background Image with Next.js Image optimization */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -20,17 +22,41 @@ export function HeroSection({ display }: HeroSectionProps) {
           priority
           quality={85}
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center w-full h-full"
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIRAAAgICAQQDAAAAAAAAAAAAAQIDBAARBQYSITFBUWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABsRAAICAwEAAAAAAAAAAAAAAAECABEDITFB/9oADAMBAAIRAxEAPwC3xnUHI8jwkENu1O0cNlYoklkYhVJ3oAnwMzjqHqjlrmPPG8kkT9r9jRuV0w9jGMTWjYE5lhiJn//Z"
         />
-        {/* Dark gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 z-[1]" />
-        {/* Additional vignette effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] z-[2]" />
+        
+        {/* Animated dark gradient overlay with slow glow */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/70 via-black/50 to-black/80 animate-[glow_8s_ease-in-out_infinite]" />
+        
+        {/* Additional vignette effect with subtle animation */}
+        <div className="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.5)_100%)] animate-[glowVignette_10s_ease-in-out_infinite]" />
       </div>
       
-      <div className="container relative z-10 px-4 py-24 md:py-32 lg:py-40 mx-auto flex flex-col items-center text-center">
+      {/* CSS Keyframes for glow animations */}
+      <style jsx>{`
+        @keyframes glow {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.85;
+          }
+        }
+        @keyframes glowVignette {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.7;
+            transform: scale(1.02);
+          }
+        }
+      `}</style>
+      
+      <div className="container relative z-10 px-4 mx-auto flex flex-col items-center text-center">
         
         {/* Announcement Banner mapping */}
         {display.announcementBannerActive && display.announcementBanner && (
@@ -65,12 +91,12 @@ export function HeroSection({ display }: HeroSectionProps) {
         <div className="absolute top-1/4 left-[10%] hidden md:block w-3 h-3 rounded-full bg-white/40 animate-pulse" style={{ animationDuration: '3s' }} />
         <div className="absolute top-1/3 right-[15%] hidden lg:block w-4 h-4 rounded-full bg-white/30 animate-pulse" style={{ animationDuration: '4s' }} />
         <div className="absolute bottom-1/4 left-[20%] hidden lg:block w-2 h-2 rounded-full border border-white/50" />
-        
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
-            <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
-          </div>
+      </div>
+      
+      {/* Scroll indicator - positioned absolutely to bottom of section */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
+          <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
         </div>
       </div>
     </section>
