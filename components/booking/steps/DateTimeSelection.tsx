@@ -29,6 +29,7 @@ export function DateTimeSelection({ state, updateState, onNext, onBack }: DateTi
     if (!selectedDate || !state.service) return;
 
     async function fetchAvailability() {
+      if (!selectedDate) return;
       setIsLoadingSlots(true);
       setMessage(null);
       try {

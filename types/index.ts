@@ -189,6 +189,7 @@ export interface TimeSlot {
   endTime: string;
   available: boolean;
   availableCount: number;
+  reason?: string;
 }
 
 export type UnavailableReason =

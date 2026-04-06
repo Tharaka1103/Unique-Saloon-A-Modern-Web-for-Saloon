@@ -56,13 +56,14 @@ const INITIAL_FORM: ServiceFormData = {
   description: "",
   isActive: true,
   isFeatured: false,
+  displayOrder: 0,
 };
 
 export function ServicesClient() {
   const [services, setServices] = useState<IService[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState<ServiceFormData>(INITIAL_FORM);
@@ -81,7 +82,7 @@ export function ServicesClient() {
         fetch("/api/services?admin=true"),
         fetch("/api/settings")
       ]);
-      
+
       const jsonSvc = await resSvc.json();
       const jsonSet = await resSet.json();
 
@@ -113,7 +114,7 @@ export function ServicesClient() {
   };
 
   const openEdit = (service: IService) => {
-    setEditingId(service._id!);
+    setEditingId(String(service._id));
     setFormData({
       name: service.name,
       category: service.category,
@@ -122,6 +123,7 @@ export function ServicesClient() {
       description: service.description || "",
       isActive: service.isActive,
       isFeatured: service.isFeatured,
+      displayOrder: service.displayOrder || 0,
     });
     setIsDialogOpen(true);
   };
@@ -145,7 +147,7 @@ export function ServicesClient() {
       });
 
       const json = await res.json();
-      
+
       if (json.success) {
         toast.success(`Service ${editingId ? "updated" : "created"}`);
         setIsDialogOpen(false);
@@ -222,7 +224,7 @@ export function ServicesClient() {
                 </TableHeader>
                 <TableBody>
                   {services.map((svc) => (
-                    <TableRow key={svc._id} className={!svc.isActive ? "opacity-60 bg-muted/30" : ""}>
+                    <TableRow key={String(svc._id)} className={!svc.isActive ? "opacity-60 bg-muted/30" : ""}>
                       <TableCell>
                         <div className="font-medium flex items-center gap-2">
                           {svc.name}
@@ -252,7 +254,7 @@ export function ServicesClient() {
                         <Button variant="ghost" size="icon" onClick={() => openEdit(svc)} className="h-8 w-8">
                           <Pencil className="size-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" onClick={() => setDeleteId(svc._id!)} className="h-8 w-8 text-destructive hover:bg-destructive/10">
+                        <Button variant="ghost" size="icon" onClick={() => setDeleteId(String(svc._id))} className="h-8 w-8 text-destructive hover:bg-destructive/10">
                           <Trash2 className="size-4" />
                         </Button>
                       </TableCell>
@@ -274,19 +276,19 @@ export function ServicesClient() {
           <form onSubmit={handleSave} className="space-y-4 pt-2">
             <div className="space-y-2">
               <Label htmlFor="name">Service Name <span className="text-destructive">*</span></Label>
-              <Input 
-                id="name" 
-                value={formData.name} 
-                onChange={(e) => setFormData(f => ({ ...f, name: e.target.value }))} 
-                required 
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData(f => ({ ...f, name: e.target.value }))}
+                required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Category <span className="text-destructive">*</span></Label>
-                <Select 
-                  value={formData.category} 
+                <Select
+                  value={formData.category}
                   onValueChange={(v) => setFormData(f => ({ ...f, category: v }))}
                 >
                   <SelectTrigger>
@@ -303,21 +305,21 @@ export function ServicesClient() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="price">Price (LKR) <span className="text-destructive">*</span></Label>
-                <Input 
-                  id="price" 
-                  type="number" 
+                <Input
+                  id="price"
+                  type="number"
                   min={0}
-                  value={formData.price} 
-                  onChange={(e) => setFormData(f => ({ ...f, price: Number(e.target.value) }))} 
-                  required 
+                  value={formData.price}
+                  onChange={(e) => setFormData(f => ({ ...f, price: Number(e.target.value) }))}
+                  required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label>Duration (Minutes)</Label>
-              <Select 
-                value={String(formData.duration)} 
+              <Select
+                value={String(formData.duration)}
                 onValueChange={(v) => setFormData(f => ({ ...f, duration: Number(v) }))}
               >
                 <SelectTrigger>
@@ -325,7 +327,7 @@ export function ServicesClient() {
                 </SelectTrigger>
                 <SelectContent>
                   {[15, 30, 45, 60, 90, 120, 150, 180, 240].map(m => (
-                    <SelectItem key={m} value={String(m)}>{m} mins {m >= 60 ? `(${(m/60).toFixed(1)} hr)` : ''}</SelectItem>
+                    <SelectItem key={m} value={String(m)}>{m} mins {m >= 60 ? `(${(m / 60).toFixed(1)} hr)` : ''}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -333,11 +335,11 @@ export function ServicesClient() {
 
             <div className="space-y-2">
               <Label htmlFor="desc">Description <span className="text-muted-foreground font-normal">(Optional)</span></Label>
-              <Textarea 
-                id="desc" 
-                value={formData.description} 
-                onChange={(e) => setFormData(f => ({ ...f, description: e.target.value }))} 
-                rows={3} 
+              <Textarea
+                id="desc"
+                value={formData.description}
+                onChange={(e) => setFormData(f => ({ ...f, description: e.target.value }))}
+                rows={3}
               />
             </div>
 
@@ -347,9 +349,9 @@ export function ServicesClient() {
                   <Label>Active Service</Label>
                   <p className="text-[10px] text-muted-foreground mr-2">Visible to customers.</p>
                 </div>
-                <Switch 
-                  checked={formData.isActive} 
-                  onCheckedChange={(v) => setFormData(f => ({ ...f, isActive: v }))} 
+                <Switch
+                  checked={formData.isActive}
+                  onCheckedChange={(v) => setFormData(f => ({ ...f, isActive: v }))}
                 />
               </div>
               <div className="flex items-center justify-between border-l pl-4">
@@ -357,9 +359,9 @@ export function ServicesClient() {
                   <Label className="flex items-center gap-1"><Star className="size-3" /> Featured</Label>
                   <p className="text-[10px] text-muted-foreground mr-2">Shows on homepage.</p>
                 </div>
-                <Switch 
-                  checked={formData.isFeatured} 
-                  onCheckedChange={(v) => setFormData(f => ({ ...f, isFeatured: v }))} 
+                <Switch
+                  checked={formData.isFeatured}
+                  onCheckedChange={(v) => setFormData(f => ({ ...f, isFeatured: v }))}
                 />
               </div>
             </div>
@@ -383,7 +385,7 @@ export function ServicesClient() {
           <AlertDialogHeader>
             <AlertDialogTitle className="text-destructive">Deactivate Server?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will safely deactivate the service so it can no longer be booked by customers. Unfinished bookings for this service will not be affected. 
+              This will safely deactivate the service so it can no longer be booked by customers. Unfinished bookings for this service will not be affected.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
